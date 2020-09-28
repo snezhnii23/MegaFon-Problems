@@ -18,7 +18,7 @@ set <pr>::iterator it;
 
 const long long p = 2147483647;
 
-// —оздадим стркутуру дл€ хранени€ "уникальных" идентификаторов массива дл€ каждой итерации
+// Creating a structure for storing "unique" array IDs for each iteration
 
 struct mini_hash
 {
@@ -27,7 +27,7 @@ struct mini_hash
 	long long c;
 };
 
-// ‘ункци€ построени€ идентификаторов
+// ID construction function
 
 mini_hash hash_maker(vector <vector <int>> &Matrix, int n, int m)
 {
@@ -64,21 +64,21 @@ mini_hash hash_maker(vector <vector <int>> &Matrix, int n, int m)
 	return New;
 }
 
-// —оздадим множество дл€ проверки уникальности матрицы на текущем шаге
+// Creating a set to check the uniqueness of the matrix at the current step
 
 set <pair <long long, pair <long long, long long> > > Uniq;
 
 int main()
 {
-	int n, m; // ќбъ€вл€ем параметры дл€ количества строк и стоблцов таблицы
+	int n, m; // Declaring parameters for the number of rows and columns in the table
 	cin >> n >> m;
 	
 	vector <vector <int>> Matrix, Matrix_New;
 
-	// „итаем матрицу размером n * m, обозначени€: 1 - жизнь, 0 - отсутствие жизни. ј также объ€вл€ем матрицы.
+	// We read a matrix of size n * m, notation: 1 - life, 0 - no life. We also declare matrices.
 
 	set <pr> Interest_Dots, Interest_Dots_New;
-	// —оздаем множество, которое будет хранить интересные нам клетки, то есть которые могут изменитьс€ на следующем шаге. ћножество, чтобы избавитьс€ от повторов.
+	// We create a set that will store the cells that are interesting to us, that is, which may change in the next step. Set to get rid of repetitions.
 
 	for (int i = 0; i < n; i++)
 	{
@@ -100,7 +100,7 @@ int main()
 		Matrix_New.push_back(String_New);
 	}
 
-	// ¬ы берем из окрестностей живых клеток кандидатов на изменение на следующем шаге
+	// We will select from the vicinity of living cells candidates for change in the next step
 
 	for (it = Interest_Dots.begin(); it != Interest_Dots.end(); it++)
 	{
@@ -140,7 +140,7 @@ int main()
 	}
 	Interest_Dots = Interest_Dots_New;
 
-	// ¬ыведем изначальную матрицу, дл€ красоты будем обозначать жизнь за "+", остутствие жизни за "-"
+	// We will output the original matrix, for beauty we will denote life for "+", the absence of life for "-"
 
 	cout << endl << "Step - 0" << endl;
 	for (int i = 0; i < n; i++)
@@ -157,12 +157,12 @@ int main()
 		cout << endl;
 	}
 
-	// ƒобавим эту матрицу в множество всех возможных состо€ний дл€ проверки уникальности получившейс€ матрицы
+	// Let's add this matrix to the set of all possible States to check the uniqueness of the resulting matrix
 
 	mini_hash null_count = hash_maker(Matrix, n, m);
 	Uniq.insert({ null_count.a, { null_count.b, null_count.c } });
 
-	// Ќачнем итерационно смотреть, что будет измен€тьс€ с течение времени.
+	// Let's start iteratively looking at what will change over time.
 	for (int k = 1; k < 20; k++)
 	{
 		for (it = Interest_Dots.begin(); it != Interest_Dots.end(); it++)
@@ -218,7 +218,7 @@ int main()
 					Matrix_New[i][j] = 1;
 				}
 			}
-			// ƒобавл€ем новых кандидатов
+			// Adding new candidates
 
 			if (it->first > 0 && it->second > 0)
 			{
@@ -257,7 +257,7 @@ int main()
 		Interest_Dots = Interest_Dots_New;
 		Matrix = Matrix_New;
 
-		// ѕроверим на совпадени€, если в матрице все единицы, то в значении пол€ a будет -1, если все 0, то -2
+		// Let's check for matches, if all units are in the matrix, then the value of the field a will be -1, if all 0, then -2
 
 		mini_hash New_count = hash_maker(Matrix, n, m);
 		if (New_count.a == -1)
@@ -283,7 +283,7 @@ int main()
 			Uniq.insert({ New_count.a, { New_count.b, New_count.c } });
 		}
 
-		// —делаем вывод матрицы
+		// Let's make a matrix output
 
 		cout << "Step - " << k << endl;
 		for (int i = 0; i < n; i++)
@@ -302,7 +302,7 @@ int main()
 		cout << endl;
 	}
 
-	// »тоговое поле
+	// Summary field
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < m; j++)
